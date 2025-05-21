@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taige's Blog - Background Image Design</title>
+    <link rel="stylesheet" href="https://unpkg.com/modern-normalize@2.0.0/modern-normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            /* Colors */
+            --color-text: #ffffff;
+            --color-text-light: rgba(255, 255, 255, 0.7);
+            --color-primary: #3b82f6;
+            --color-secondary: #6366f1;
+            --color-accent: #8b5cf6;
+            --color-success: #10b981;
+            
+            /* Typography */
+            --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-md: 1.125rem;
+            --font-size-lg: 1.25rem;
+            --font-size-xl: 1.5rem;
+            --font-size-2xl: 1.875rem;
+            --font-size-3xl: 2.25rem;
+            --font-size-4xl: 3rem;
+            --font-size-5xl: 4rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-24: 6rem;
+            
+            /* Other */
+            --glass-bg: rgba(0, 0, 0, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+            --header-height: 70px;
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: url('bg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
+            z-index: -1;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1.2;
+            margin-bottom: var(--space-4);
+            font-weight: 700;
+        }
+        
+        p {
+            margin-bottom: var(--space-4);
+        }
+        
+        a {
+            color: var(--color-text);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-4);
+        }
+        
+        /* Header */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: var(--space-4) 0;
+            transition: background-color var(--transition-normal);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+        }
+        
+        .logo span {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: var(--space-6);
+        }
+        
+        .main-nav a {
+            font-weight: 500;
+            position: relative;
+            padding: var(--space-2) 0;
+        }
+        
+        .main-nav a:hover, .main-nav a.active {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+            border-radius: var(--radius-full);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: var(--header-height);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero-title {
+            font-size: var(--font-size-5xl);
+            font-weight: 800;
+            margin-bottom: var(--space-6);
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--color-text-light);
+            margin-bottom: var(--space-8);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+        }
+        
+        /* Featured */
+        .featured-section {
+            padding: var(--space-24) 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .section-title {
+            font-size: var(--font-size-3xl);
+            text-align: center;
+            margin-bottom: var(--space-12);
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .article-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform var(--transition-normal);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .article-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        
+        .article-card:hover .article-image img {
+            transform: scale(1.1);
+        }
+        
+        .article-content {
+            padding: var(--space-4);
+        }
+        
+        .article-tag {
+            display: inline-block;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-2);
+            background: linear-gradient(135deg, #a6c0fe, #f68084);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .article-title {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-2);
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: var(--space-4);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-light);
+            margin-top: var(--space-3);
+        }
+        
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .article-meta i {
+            width: 14px;
+            height: 14px;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        .site-footer {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: var(--space-12) 0 var(--space-4);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+        
+        .footer-brand p {
+            color: var(--color-text-light);
+        }
+        
+        .footer-links h3 {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--space-4);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+        
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: all var(--transition-fast);
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border);
+            padding-top: var(--space-4);
+            text-align: center;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-light);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .hero-subtitle {
+                font-size: var(--font-size-md);
+            }
+            
+            .section-title {
+                font-size: var(--font-size-2xl);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-6);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <span>Taige's</span> Blog
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Exploring Ideas, Design, and Technology</h1>
+                <p class="hero-subtitle">A personal journey through creative coding, design experiments, and photographic adventures.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary">Explore Blog</a>
+                    <a href="#" class="btn btn-outline">About Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Articles -->
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title">Featured Articles</h2>
+            
+            <div class="articles-grid">
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" alt="Tech article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Technology</span>
+                        <h3 class="article-title">Building Immersive Web Experiences</h3>
+                        <p>Exploring modern techniques for creating engaging, immersive websites that captivate users.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> May 23, 2023</span>
+                            <span><i data-feather="clock"></i> 6 min read</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" alt="Design article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Design</span>
+                        <h3 class="article-title">The Art of Minimal UI Design</h3>
+                        <p>How less can be more: principles and practices for creating beautiful minimal interfaces.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> April 14, 2023</span>
+                            <span><i data-feather="clock"></i> 5 min read</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" alt="Photography article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Photography</span>
+                        <h3 class="article-title">Storytelling Through Photography</h3>
+                        <p>Techniques for capturing moments that convey emotion and narrative in a single frame.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> March 28, 2023</span>
+                            <span><i data-feather="clock"></i> 4 min read</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span>Taige's</span> Blog
+                    </div>
+                    <p>A personal space for sharing ideas, experiments, and creative explorations.</p>
+                    
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i data-feather="github"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="twitter"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="instagram"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Navigation</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Technology</a></li>
+                        <li><a href="#">Design</a></li>
+                        <li><a href="#">Photography</a></li>
+                        <li><a href="#">Art</a></li>
+                        <li><a href="#">Travel</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Taige's Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize Feather icons
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+        });
+    </script>
+</body>
+</html> 

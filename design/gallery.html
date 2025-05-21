@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Taige's Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include modern-normalize for consistent rendering across browsers -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css">
+    <!-- Google Fonts - Segoe UI alternative and Consolas -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        /* Additional styles specific to gallery page */
+        .gallery-header {
+            text-align: center;
+            padding: var(--space-2xl) 0;
+            background-color: var(--surface);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .gallery-subtitle {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+        
+        .gallery-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: var(--space-xl);
+            align-items: center;
+        }
+        
+        .gallery-tabs {
+            display: flex;
+            gap: var(--space-md);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: var(--space-sm);
+        }
+        
+        .gallery-tab {
+            padding: var(--space-sm) var(--space-lg);
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color var(--transition-fast);
+        }
+        
+        .gallery-tab.active {
+            color: var(--primary-blue);
+        }
+        
+        .gallery-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-blue);
+        }
+        
+        .gallery-dropdown {
+            position: relative;
+        }
+        
+        .gallery-dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: var(--background);
+            cursor: pointer;
+            transition: border-color var(--transition-fast);
+        }
+        
+        .gallery-dropdown-toggle:hover {
+            border-color: var(--primary-blue);
+        }
+        
+        .gallery-masonry {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: 250px;
+            grid-auto-flow: dense;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: transform var(--transition-fast);
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+        
+        .gallery-item.wide {
+            grid-column: span 2;
+        }
+        
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+        
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        .gallery-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-md);
+            color: white;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all var(--transition-fast);
+        }
+        
+        .gallery-item:hover .gallery-item-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-item-title {
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .gallery-item-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: var(--text-sm);
+        }
+        
+        .gallery-item-meta i {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .load-more {
+            display: block;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-xl);
+        }
+        
+        .album-section {
+            margin-top: var(--space-3xl);
+        }
+        
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .album-card {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+            cursor: pointer;
+            background-color: var(--background);
+        }
+        
+        .album-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .album-thumbnail {
+            position: relative;
+            height: 180px;
+        }
+        
+        .album-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .album-count {
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+        
+        .album-info {
+            padding: var(--space-md);
+        }
+        
+        .album-title {
+            margin-bottom: var(--space-xs);
+        }
+        
+        .album-date {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+        
+        /* Video section styles */
+        .video-item {
+            position: relative;
+        }
+        
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 120, 212, 0.9);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            transition: opacity var(--transition-fast), transform var(--transition-fast);
+        }
+        
+        .video-item:hover .video-play-button {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: var(--space-sm);
+            right: var(--space-sm);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            z-index: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-md);
+            }
+            
+            .gallery-tabs {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .gallery-tab {
+                padding: var(--space-sm);
+            }
+            
+            .gallery-masonry {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .gallery-item.wide,
+            .gallery-item.tall {
+                grid-column: auto;
+                grid-row: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery-masonry {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="prototype.html" class="logo">Taige's Blog</a>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="prototype.html">Home</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li class="active"><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle dark mode">
+                    <i data-feather="moon"></i>
+                </button>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Gallery Header -->
+            <div class="gallery-header">
+                <h1>Gallery</h1>
+                <p class="gallery-subtitle">A collection of visual explorations, photography, and design work.</p>
+            </div>
+            
+            <!-- Gallery Controls -->
+            <div class="gallery-controls">
+                <div class="gallery-tabs">
+                    <div class="gallery-tab active" data-tab="photos">Photos</div>
+                    <div class="gallery-tab" data-tab="videos">Videos</div>
+                    <div class="gallery-tab" data-tab="albums">Collections</div>
+                </div>
+                
+                <div class="gallery-dropdown">
+                    <div class="gallery-dropdown-toggle">
+                        <span>Sort by: Recent</span>
+                        <i data-feather="chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Photos Tab Content -->
+            <div class="gallery-tab-content active" id="photos-content">
+                <div class="gallery-masonry">
+                    <!-- Gallery Item 1 - Wide -->
+                    <div class="gallery-item wide">
+                        <img src="https://via.placeholder.com/600x300" alt="Gallery image">
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">Urban Architecture</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>April 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 2 -->
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/300x300" alt="Gallery image">
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">Minimal Design</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>March 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 3 - Tall -->
+                    <div class="gallery-item tall">
+                        <img src="https://via.placeholder.com/300x600" alt="Gallery image">
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">City Lights</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>March 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 4 -->
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/300x300" alt="Gallery image">
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">Natural Textures</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>February 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 5 -->
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/300x300" alt="Gallery image">
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">Abstract Patterns</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>February 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Item 6 - Wide -->
+                    <div class="gallery-item wide">
+                        <img src="https://via.placeholder.com/600x300" alt="Gallery image">
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">Sunset Landscapes</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>January 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-secondary load-more">Load More</button>
+            </div>
+            
+            <!-- Videos Tab Content (Initially Hidden) -->
+            <div class="gallery-tab-content" id="videos-content" style="display: none;">
+                <div class="gallery-masonry">
+                    <!-- Video Item 1 - Wide -->
+                    <div class="gallery-item video-item wide">
+                        <img src="https://via.placeholder.com/600x300" alt="Video thumbnail">
+                        <div class="video-play-button">
+                            <i data-feather="play" style="color: white;"></i>
+                        </div>
+                        <div class="video-duration">3:45</div>
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">Design Process Timelapse</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>April 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video Item 2 -->
+                    <div class="gallery-item video-item">
+                        <img src="https://via.placeholder.com/300x300" alt="Video thumbnail">
+                        <div class="video-play-button">
+                            <i data-feather="play" style="color: white;"></i>
+                        </div>
+                        <div class="video-duration">2:18</div>
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">City Walk</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>March 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video Item 3 -->
+                    <div class="gallery-item video-item">
+                        <img src="https://via.placeholder.com/300x300" alt="Video thumbnail">
+                        <div class="video-play-button">
+                            <i data-feather="play" style="color: white;"></i>
+                        </div>
+                        <div class="video-duration">4:32</div>
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">UI Animation Showcase</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>February 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video Item 4 - Wide -->
+                    <div class="gallery-item video-item wide">
+                        <img src="https://via.placeholder.com/600x300" alt="Video thumbnail">
+                        <div class="video-play-button">
+                            <i data-feather="play" style="color: white;"></i>
+                        </div>
+                        <div class="video-duration">5:10</div>
+                        <div class="gallery-item-info">
+                            <h3 class="gallery-item-title">Coding Session: React App</h3>
+                            <div class="gallery-item-meta">
+                                <i data-feather="calendar"></i>
+                                <span>January 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-secondary load-more">Load More</button>
+            </div>
+            
+            <!-- Albums Tab Content (Initially Hidden) -->
+            <div class="gallery-tab-content" id="albums-content" style="display: none;">
+                <div class="albums-grid">
+                    <!-- Album 1 -->
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://via.placeholder.com/300x180" alt="Album thumbnail">
+                            <div class="album-count">
+                                <i data-feather="image"></i>
+                                <span>12 photos</span>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3 class="album-title">Urban Exploration</h3>
+                            <p class="album-date">April 2023</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 2 -->
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://via.placeholder.com/300x180" alt="Album thumbnail">
+                            <div class="album-count">
+                                <i data-feather="image"></i>
+                                <span>8 photos</span>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3 class="album-title">Minimal Designs</h3>
+                            <p class="album-date">March 2023</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 3 -->
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://via.placeholder.com/300x180" alt="Album thumbnail">
+                            <div class="album-count">
+                                <i data-feather="image"></i>
+                                <span>15 photos</span>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3 class="album-title">Nature & Landscapes</h3>
+                            <p class="album-date">February 2023</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 4 -->
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://via.placeholder.com/300x180" alt="Album thumbnail">
+                            <div class="album-count">
+                                <i data-feather="film"></i>
+                                <span>6 videos</span>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <h3 class="album-title">Design Process</h3>
+                            <p class="album-date">January 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Taige's Blog</h3>
+                    <p>Exploring technology, design, and creative ideas.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="prototype.html">Home</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Twitter"><i data-feather="twitter"></i></a>
+                        <a href="#" aria-label="GitHub"><i data-feather="github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i data-feather="linkedin"></i></a>
+                        <a href="#" aria-label="Instagram"><i data-feather="instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Taige's Blog. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('menu-open');
+        });
+
+        // Dark mode toggle
+        document.querySelector('.theme-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            // Update icon
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                feather.replace(icon, { name: 'sun' });
+            } else {
+                feather.replace(icon, { name: 'moon' });
+            }
+        });
+        
+        // Gallery tabs functionality
+        document.querySelectorAll('.gallery-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update active tab
+                document.querySelector('.gallery-tab.active').classList.remove('active');
+                this.classList.add('active');
+                
+                // Show the corresponding content
+                const tabName = this.dataset.tab;
+                document.querySelectorAll('.gallery-tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                document.getElementById(`${tabName}-content`).style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html> 

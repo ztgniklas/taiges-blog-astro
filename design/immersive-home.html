@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taige's Blog - Immersive Design</title>
+    <link rel="stylesheet" href="immersive-styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/modern-normalize@2.0.0/modern-normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="light-theme">
+    <!-- Background Elements -->
+    <div class="blur-circle blur-primary"></div>
+    <div class="blur-circle blur-secondary"></div>
+    <div class="blur-circle blur-accent"></div>
+    
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <span class="gradient-text">Taige's</span> Blog
+            </div>
+            
+            <button class="mobile-menu-toggle" id="menuToggle">
+                <i data-feather="menu"></i>
+            </button>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+            
+            <button class="theme-toggle" id="themeToggle">
+                <i data-feather="moon"></i>
+            </button>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="gradient-hero-text">Ideas, Code, <br>and Creative Explorations</h1>
+                <p class="hero-subtitle">A personal journal of tech discoveries, design experiments, and everyday adventures.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary">Explore Latest</a>
+                    <a href="#" class="btn btn-outline">About Me</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Featured Articles -->
+        <section class="featured-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="gradient-text">Featured Articles</h2>
+                    <a href="#" class="view-all">View all <i data-feather="arrow-right"></i></a>
+                </div>
+                
+                <div class="article-grid">
+                    <article class="article-card glass-card">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29kZSUyMG9uJTIwc2NyZWVufGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60" alt="Coding workflow article">
+                            <span class="article-tag">Development</span>
+                        </div>
+                        <div class="article-content">
+                            <h3>Building My Perfect Coding Workflow</h3>
+                            <p>A deep dive into the tools, extensions, and configurations that enhance my development experience.</p>
+                            <div class="article-meta">
+                                <span><i data-feather="calendar"></i> May 15, 2023</span>
+                                <span><i data-feather="clock"></i> 8 min read</span>
+                            </div>
+                            <a href="#" class="read-more">Read more <i data-feather="arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card glass-card">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1523726491678-bf852e717f6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60" alt="Design process article">
+                            <span class="article-tag">Design</span>
+                        </div>
+                        <div class="article-content">
+                            <h3>The Evolution of My Design Process</h3>
+                            <p>How I've refined my approach to design over the years and the lessons learned along the way.</p>
+                            <div class="article-meta">
+                                <span><i data-feather="calendar"></i> April 28, 2023</span>
+                                <span><i data-feather="clock"></i> 6 min read</span>
+                            </div>
+                            <a href="#" class="read-more">Read more <i data-feather="arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card glass-card">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGhvdG9ncmFwaHl8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=60" alt="Photography tips article">
+                            <span class="article-tag">Photography</span>
+                        </div>
+                        <div class="article-content">
+                            <h3>Capturing Authentic Moments</h3>
+                            <p>Tips and techniques for photography that tells a story and evokes genuine emotion.</p>
+                            <div class="article-meta">
+                                <span><i data-feather="calendar"></i> April 10, 2023</span>
+                                <span><i data-feather="clock"></i> 5 min read</span>
+                            </div>
+                            <a href="#" class="read-more">Read more <i data-feather="arrow-right"></i></a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="gradient-text">Browse by Topic</h2>
+                </div>
+                
+                <div class="categories-grid">
+                    <a href="#" class="category-card glass-card" style="--category-color: var(--color-blue);">
+                        <i data-feather="code"></i>
+                        <h3>Development</h3>
+                        <span class="category-count">24 articles</span>
+                    </a>
+                    
+                    <a href="#" class="category-card glass-card" style="--category-color: var(--color-purple);">
+                        <i data-feather="pen-tool"></i>
+                        <h3>Design</h3>
+                        <span class="category-count">18 articles</span>
+                    </a>
+                    
+                    <a href="#" class="category-card glass-card" style="--category-color: var(--color-green);">
+                        <i data-feather="camera"></i>
+                        <h3>Photography</h3>
+                        <span class="category-count">12 articles</span>
+                    </a>
+                    
+                    <a href="#" class="category-card glass-card" style="--category-color: var(--color-red);">
+                        <i data-feather="film"></i>
+                        <h3>Videos</h3>
+                        <span class="category-count">8 articles</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Latest Updates Section -->
+        <section class="updates-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="gradient-text">Latest Updates</h2>
+                </div>
+                
+                <div class="timeline glass-card">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>New Article: A Guide to Astro</h3>
+                            <p>Published a comprehensive guide to building static sites with Astro.</p>
+                            <span class="timeline-date">June 2, 2023</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Portfolio Redesign</h3>
+                            <p>Launched a completely redesigned portfolio with immersive design principles.</p>
+                            <span class="timeline-date">May 27, 2023</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>New Photo Collection</h3>
+                            <p>Added a new collection of urban landscapes to the gallery.</p>
+                            <span class="timeline-date">May 18, 2023</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Video Tutorial Series</h3>
+                            <p>Started a new series on creative coding with p5.js.</p>
+                            <span class="timeline-date">May 10, 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-branding">
+                    <div class="logo">
+                        <span class="gradient-text">Taige's</span> Blog
+                    </div>
+                    <p>Exploring technology, design, and creativity.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-social">
+                    <h3>Connect</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i data-feather="github"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="twitter"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="instagram"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Taige's Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.querySelector('.main-nav');
+        
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('open');
+            menuToggle.setAttribute('aria-expanded', 
+                menuToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+            );
+        });
+        
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.setAttribute('data-feather', 'sun');
+            } else {
+                themeIcon.setAttribute('data-feather', 'moon');
+            }
+            feather.replace();
+        });
+    </script>
+</body>
+</html> 

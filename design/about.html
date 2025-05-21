@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Taige's Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include modern-normalize for consistent rendering across browsers -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css">
+    <!-- Google Fonts - Segoe UI alternative and Consolas -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        /* Additional styles specific to about page */
+        .about-header {
+            display: flex;
+            gap: var(--space-xl);
+            align-items: center;
+            margin-bottom: var(--space-2xl);
+            padding: var(--space-2xl) 0;
+        }
+        
+        .profile-image {
+            flex-shrink: 0;
+            width: 180px;
+            height: 180px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            border: 3px solid var(--primary-blue);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-intro {
+            flex-grow: 1;
+        }
+        
+        .profile-intro h1 {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .profile-intro p {
+            color: var(--text-secondary);
+            font-size: var(--text-lg);
+            line-height: 1.5;
+        }
+        
+        .about-section {
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .bio-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: var(--space-xl);
+            align-items: start;
+        }
+        
+        .bio-text {
+            font-size: var(--text-base);
+            line-height: 1.7;
+        }
+        
+        .bio-text p {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .bio-text p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .bio-sidebar {
+            background-color: var(--surface);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+        }
+        
+        .bio-sidebar h3 {
+            font-size: var(--text-base);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .bio-sidebar h3 i {
+            color: var(--primary-blue);
+        }
+        
+        .bio-sidebar ul {
+            list-style: none;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .bio-sidebar li {
+            padding: var(--space-xs) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .bio-sidebar li:before {
+            content: "•";
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+        
+        /* Skills section */
+        .skills-group {
+            margin-bottom: var(--space-xl);
+        }
+        
+        .skills-group h3 {
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-md);
+            color: var(--primary-blue);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: var(--space-md);
+        }
+        
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        
+        .skill-name {
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .skill-level {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+        
+        .skill-bar {
+            height: 6px;
+            background-color: var(--surface);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background-color: var(--primary-blue);
+            border-radius: var(--radius-full);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border-color);
+        }
+        
+        .timeline-entry {
+            position: relative;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .timeline-entry:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-entry:before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: var(--radius-full);
+            background-color: var(--primary-blue);
+            z-index: 1;
+        }
+        
+        .timeline-date {
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+            color: var(--primary-blue);
+        }
+        
+        .timeline-title {
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .timeline-location {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+            font-size: var(--text-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+        
+        /* Contact section */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .contact-card {
+            background-color: var(--surface);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .contact-card-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-md);
+        }
+        
+        .contact-card h3 {
+            font-size: var(--text-base);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .contact-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-md);
+        }
+        
+        .contact-card a {
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .about-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-image {
+                margin: 0 auto;
+            }
+            
+            .bio-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="prototype.html" class="logo">Taige's Blog</a>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="prototype.html">Home</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li class="active"><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle dark mode">
+                    <i data-feather="moon"></i>
+                </button>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- About Header / Intro -->
+            <div class="about-header">
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/180x180" alt="Taige's profile picture">
+                </div>
+                <div class="profile-intro">
+                    <h1>Hello, I'm Taige</h1>
+                    <p>A passionate developer, designer, and creative thinker with a love for building beautiful, functional digital experiences.</p>
+                </div>
+            </div>
+            
+            <!-- Bio Section -->
+            <section class="about-section">
+                <h2>About Me</h2>
+                <div class="bio-content">
+                    <div class="bio-text">
+                        <p>I'm a full-stack developer with a passion for creating intuitive, responsive, and visually appealing web applications. With over 5 years of experience in the tech industry, I've had the opportunity to work on a variety of projects, from small business websites to large-scale enterprise applications.</p>
+                        
+                        <p>My journey into tech began when I was a teenager, tinkering with HTML and CSS to create simple websites. This curiosity evolved into a deep interest in modern web technologies, user experience design, and software architecture. I believe that good design and clean code go hand in hand, and I strive to create solutions that are both beautiful and functional.</p>
+                        
+                        <p>When I'm not coding, you can find me exploring the city with my camera, reading about new technologies, or experimenting with digital art. I'm also an avid hiker and enjoy spending time outdoors whenever possible.</p>
+                        
+                        <p>Through this blog, I share my knowledge, experiences, and thoughts on technology, design, and various creative pursuits. Whether you're here to learn something new, get inspired, or just to say hello, I'm glad you stopped by!</p>
+                    </div>
+                    
+                    <div class="bio-sidebar">
+                        <h3><i data-feather="briefcase"></i> Current Focus</h3>
+                        <ul>
+                            <li>Front-end development with React</li>
+                            <li>UI/UX design principles</li>
+                            <li>Serverless architectures</li>
+                            <li>TypeScript best practices</li>
+                        </ul>
+                        
+                        <h3><i data-feather="book-open"></i> Currently Learning</h3>
+                        <ul>
+                            <li>WebGL and Three.js</li>
+                            <li>Advanced animation techniques</li>
+                            <li>Micro-frontend architecture</li>
+                        </ul>
+                        
+                        <h3><i data-feather="heart"></i> Interests</h3>
+                        <ul>
+                            <li>Urban photography</li>
+                            <li>Reading sci-fi novels</li>
+                            <li>Digital illustration</li>
+                            <li>Hiking and nature exploration</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Skills Section -->
+            <section class="about-section">
+                <h2>Skills & Expertise</h2>
+                
+                <div class="skills-group">
+                    <h3>Development</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>JavaScript</span>
+                                <span class="skill-level">Expert</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>TypeScript</span>
+                                <span class="skill-level">Advanced</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>React</span>
+                                <span class="skill-level">Expert</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Node.js</span>
+                                <span class="skill-level">Advanced</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>HTML/CSS</span>
+                                <span class="skill-level">Expert</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Python</span>
+                                <span class="skill-level">Intermediate</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skills-group">
+                    <h3>Design</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>UI Design</span>
+                                <span class="skill-level">Advanced</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>UX Principles</span>
+                                <span class="skill-level">Advanced</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Figma</span>
+                                <span class="skill-level">Advanced</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Adobe Photoshop</span>
+                                <span class="skill-level">Intermediate</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Experience/Journey Timeline -->
+            <section class="about-section">
+                <h2>My Journey</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-entry">
+                        <div class="timeline-date">2022 - Present</div>
+                        <h3 class="timeline-title">Senior Frontend Developer</h3>
+                        <div class="timeline-location">
+                            <i data-feather="map-pin"></i>
+                            <span>TechInnovate Inc.</span>
+                        </div>
+                        <p>Leading the frontend team in developing modern, responsive web applications using React, TypeScript, and other cutting-edge technologies. Implementing design systems and improving overall user experience.</p>
+                    </div>
+                    
+                    <div class="timeline-entry">
+                        <div class="timeline-date">2019 - 2022</div>
+                        <h3 class="timeline-title">UI/UX Developer</h3>
+                        <div class="timeline-location">
+                            <i data-feather="map-pin"></i>
+                            <span>Digital Solutions Co.</span>
+                        </div>
+                        <p>Collaborated with designers and backend developers to create intuitive interfaces for web and mobile applications. Focused on accessibility, performance, and cross-platform compatibility.</p>
+                    </div>
+                    
+                    <div class="timeline-entry">
+                        <div class="timeline-date">2017 - 2019</div>
+                        <h3 class="timeline-title">Web Developer</h3>
+                        <div class="timeline-location">
+                            <i data-feather="map-pin"></i>
+                            <span>CreativeTech Studio</span>
+                        </div>
+                        <p>Developed responsive websites and e-commerce platforms for various clients. Gained experience in working with different frameworks and technologies in a fast-paced environment.</p>
+                    </div>
+                    
+                    <div class="timeline-entry">
+                        <div class="timeline-date">2016</div>
+                        <h3 class="timeline-title">Bachelor's Degree in Computer Science</h3>
+                        <div class="timeline-location">
+                            <i data-feather="map-pin"></i>
+                            <span>University of Technology</span>
+                        </div>
+                        <p>Focused on web development, user interface design, and software engineering principles. Completed a thesis on responsive design patterns for complex web applications.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Contact Section -->
+            <section class="about-section">
+                <h2>Get in Touch</h2>
+                
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i data-feather="mail"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>For inquiries and collaboration opportunities</p>
+                        <a href="mailto:contact@taigesblog.com">contact@taigesblog.com</a>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i data-feather="twitter"></i>
+                        </div>
+                        <h3>Twitter</h3>
+                        <p>Follow me for updates and discussions</p>
+                        <a href="https://twitter.com/taigesblog" target="_blank">@taigesblog</a>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i data-feather="github"></i>
+                        </div>
+                        <h3>GitHub</h3>
+                        <p>Check out my code and projects</p>
+                        <a href="https://github.com/taigesblog" target="_blank">github.com/taigesblog</a>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i data-feather="linkedin"></i>
+                        </div>
+                        <h3>LinkedIn</h3>
+                        <p>Connect professionally</p>
+                        <a href="https://linkedin.com/in/taigesblog" target="_blank">linkedin.com/in/taigesblog</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Taige's Blog</h3>
+                    <p>Exploring technology, design, and creative ideas.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="prototype.html">Home</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Twitter"><i data-feather="twitter"></i></a>
+                        <a href="#" aria-label="GitHub"><i data-feather="github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i data-feather="linkedin"></i></a>
+                        <a href="#" aria-label="Instagram"><i data-feather="instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Taige's Blog. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('menu-open');
+        });
+
+        // Dark mode toggle
+        document.querySelector('.theme-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            // Update icon
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                feather.replace(icon, { name: 'sun' });
+            } else {
+                feather.replace(icon, { name: 'moon' });
+            }
+        });
+    </script>
+</body>
+</html> 
