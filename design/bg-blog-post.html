@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating Immersive Digital Experiences - Taige's Blog</title>
+    <link rel="stylesheet" href="https://unpkg.com/modern-normalize@2.0.0/modern-normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bg-styles.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        /* Blog post specific styles */
+        .article-header {
+            margin-bottom: var(--space-16);
+            padding-top: calc(var(--header-height) + var(--space-16));
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+            color: var(--color-text-light);
+            font-size: var(--font-size-sm);
+        }
+        
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .article-title {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--space-6);
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+        
+        .article-subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--color-text-light);
+            margin-bottom: var(--space-8);
+            max-width: 800px;
+        }
+        
+        .article-cover {
+            width: 100%;
+            height: 500px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--space-12);
+        }
+        
+        .article-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: var(--font-size-lg);
+            line-height: 1.8;
+        }
+        
+        .article-content p {
+            margin-bottom: var(--space-6);
+        }
+        
+        .article-content h2 {
+            font-size: var(--font-size-2xl);
+            margin: var(--space-12) 0 var(--space-6);
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .article-content h3 {
+            font-size: var(--font-size-xl);
+            margin: var(--space-8) 0 var(--space-4);
+        }
+        
+        .article-content img {
+            width: 100%;
+            border-radius: var(--radius-md);
+            margin: var(--space-8) 0;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid #84fab0;
+            padding-left: var(--space-6);
+            margin: var(--space-8) 0;
+            font-style: italic;
+            color: var(--color-text-light);
+        }
+        
+        .article-content code {
+            font-family: var(--font-mono);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.2em 0.4em;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+        }
+        
+        .article-content pre {
+            background: rgba(0, 0, 0, 0.2);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: var(--space-6) 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .article-tags {
+            display: flex;
+            gap: var(--space-2);
+            margin: var(--space-8) 0;
+            flex-wrap: wrap;
+        }
+        
+        .article-tag {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--color-text-light);
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-fast);
+        }
+        
+        .article-tag:hover {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .article-share {
+            display: flex;
+            gap: var(--space-4);
+            margin: var(--space-12) 0;
+        }
+        
+        .share-button {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            color: var(--color-text);
+            transition: all var(--transition-fast);
+        }
+        
+        .share-button:hover {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            transform: translateY(-2px);
+        }
+        
+        .author-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-16) 0;
+            display: flex;
+            gap: var(--space-6);
+            align-items: center;
+        }
+        
+        .author-image {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        
+        .author-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h3 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-2);
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .author-info p {
+            color: var(--color-text-light);
+            margin-bottom: var(--space-4);
+        }
+        
+        .related-posts {
+            margin-top: var(--space-24);
+        }
+        
+        .related-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-8);
+        }
+        
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .article-subtitle {
+                font-size: var(--font-size-lg);
+            }
+            
+            .article-cover {
+                height: 300px;
+            }
+            
+            .author-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <span>Taige's</span> Blog
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="bg-prototype.html">Home</a></li>
+                    <li><a href="bg-blog.html" class="active">Blog</a></li>
+                    <li><a href="bg-gallery.html">Gallery</a></li>
+                    <li><a href="bg-about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-meta">
+                <span><i data-feather="calendar"></i> June 12, 2023</span>
+                <span><i data-feather="clock"></i> 8 min read</span>
+                <span><i data-feather="message-circle"></i> 24 comments</span>
+            </div>
+            
+            <h1 class="article-title">Creating Immersive Digital Experiences with Modern Web Technologies</h1>
+            
+            <p class="article-subtitle">An in-depth exploration of how to build captivating, immersive web experiences using the latest technologies and design principles.</p>
+            
+            <div class="article-tags">
+                <a href="#" class="article-tag">Web Development</a>
+                <a href="#" class="article-tag">Design</a>
+                <a href="#" class="article-tag">Technology</a>
+                <a href="#" class="article-tag">Tutorial</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Article Cover -->
+    <div class="container">
+        <div class="article-cover">
+            <img src="https://images.unsplash.com/photo-1517292987719-0369a794ec0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGlnaXRhbCUyMGV4cGVyaWVuY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1200&q=80" alt="Immersive Digital Experiences">
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <article class="article-content">
+                <p>In today's digital landscape, creating immersive experiences is more important than ever. Users expect websites and applications that not only look beautiful but also engage them on a deeper level. This article explores how modern web technologies can help us achieve this goal.</p>
+                
+                <h2>The Power of Modern Web Technologies</h2>
+                
+                <p>Modern web technologies have evolved significantly, offering developers and designers unprecedented capabilities to create immersive experiences. From advanced CSS features to powerful JavaScript frameworks, we now have the tools to build websites that were once only possible in native applications.</p>
+                
+                <blockquote>
+                    "The best digital experiences are those that seamlessly blend aesthetics with functionality, creating a sense of wonder and engagement."
+                </blockquote>
+                
+                <h3>Key Technologies for Immersive Experiences</h3>
+                
+                <p>Let's explore some of the key technologies that enable us to create immersive web experiences:</p>
+                
+                <ul>
+                    <li>CSS Grid and Flexbox for advanced layouts</li>
+                    <li>CSS Custom Properties for dynamic theming</li>
+                    <li>WebGL and Three.js for 3D graphics</li>
+                    <li>Web Animations API for smooth animations</li>
+                    <li>Intersection Observer for scroll-based effects</li>
+                </ul>
+                
+                <h2>Implementing Immersive Features</h2>
+                
+                <p>Here's a simple example of how to create a parallax scrolling effect using CSS:</p>
+                
+                <pre><code>.parallax-container {
+    perspective: 1px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.parallax-layer-back {
+    transform: translateZ(-1px) scale(2);
+}
+
+.parallax-layer-base {
+    transform: translateZ(0);
+}</code></pre>
+                
+                <h3>Best Practices for Immersive Design</h3>
+                
+                <p>When creating immersive experiences, it's important to keep these principles in mind:</p>
+                
+                <ol>
+                    <li>Performance is crucial - optimize assets and code</li>
+                    <li>Accessibility should never be compromised</li>
+                    <li>Progressive enhancement ensures broad compatibility</li>
+                    <li>User feedback and interaction should be immediate</li>
+                    <li>Content should be the focus, not the effects</li>
+                </ol>
+                
+                <h2>Conclusion</h2>
+                
+                <p>Creating immersive digital experiences requires a careful balance of technical expertise and creative vision. By leveraging modern web technologies and following best practices, we can build websites that not only look stunning but also provide meaningful and engaging user experiences.</p>
+                
+                <div class="article-share">
+                    <a href="#" class="share-button">
+                        <i data-feather="twitter"></i>
+                        Share on Twitter
+                    </a>
+                    <a href="#" class="share-button">
+                        <i data-feather="facebook"></i>
+                        Share on Facebook
+                    </a>
+                    <a href="#" class="share-button">
+                        <i data-feather="linkedin"></i>
+                        Share on LinkedIn
+                    </a>
+                </div>
+            </article>
+            
+            <!-- Author Card -->
+            <div class="author-card">
+                <div class="author-image">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Taige Wilson">
+                </div>
+                <div class="author-info">
+                    <h3>Taige Wilson</h3>
+                    <p>Designer, Developer & Creative Technologist</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i data-feather="github"></i></a>
+                        <a href="#" class="social-link"><i data-feather="twitter"></i></a>
+                        <a href="#" class="social-link"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Related Posts -->
+            <section class="related-posts">
+                <h2 class="section-title">Related Articles</h2>
+                
+                <div class="related-posts-grid">
+                    <article class="article-card glass-card">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Design article">
+                        </div>
+                        <div class="article-content">
+                            <span class="article-tag">Design</span>
+                            <h3 class="article-title">The Art of Minimal UI Design</h3>
+                            <p>How less can be more: principles and practices for creating beautiful minimal interfaces.</p>
+                            <div class="article-meta">
+                                <span><i data-feather="calendar"></i> May 18, 2023</span>
+                                <span><i data-feather="clock"></i> 5 min read</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card glass-card">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Tech article">
+                        </div>
+                        <div class="article-content">
+                            <span class="article-tag">Technology</span>
+                            <h3 class="article-title">Getting Started with Astro Framework</h3>
+                            <p>A comprehensive guide to building lightning-fast websites with the Astro framework.</p>
+                            <div class="article-meta">
+                                <span><i data-feather="calendar"></i> May 5, 2023</span>
+                                <span><i data-feather="clock"></i> 7 min read</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card glass-card">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Photography article">
+                        </div>
+                        <div class="article-content">
+                            <span class="article-tag">Photography</span>
+                            <h3 class="article-title">Storytelling Through Photography</h3>
+                            <p>Techniques for capturing moments that convey emotion and narrative in a single frame.</p>
+                            <div class="article-meta">
+                                <span><i data-feather="calendar"></i> April 22, 2023</span>
+                                <span><i data-feather="clock"></i> 4 min read</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span>Taige's</span> Blog
+                    </div>
+                    <p>A personal space for sharing ideas, experiments, and creative explorations.</p>
+                    
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i data-feather="github"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="twitter"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="instagram"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Navigation</h3>
+                    <ul>
+                        <li><a href="bg-prototype.html">Home</a></li>
+                        <li><a href="bg-blog.html">Blog</a></li>
+                        <li><a href="bg-gallery.html">Gallery</a></li>
+                        <li><a href="bg-about.html">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Technology</a></li>
+                        <li><a href="#">Design</a></li>
+                        <li><a href="#">Photography</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Personal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Taige's Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+        });
+    </script>
+</body>
+</html> 

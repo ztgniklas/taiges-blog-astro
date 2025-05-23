@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Taige's Blog</title>
+    <link rel="stylesheet" href="https://unpkg.com/modern-normalize@2.0.0/modern-normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bg-styles.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        /* Gallery page specific styles */
+        .gallery-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: var(--space-8);
+            align-items: center;
+        }
+        
+        .gallery-tabs {
+            display: flex;
+            gap: var(--space-4);
+            padding-bottom: var(--space-2);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-3) var(--space-4);
+        }
+        
+        .gallery-tab {
+            padding: var(--space-2) var(--space-4);
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            color: var(--color-text-light);
+            transition: color var(--transition-fast);
+            border-radius: var(--radius-md);
+        }
+        
+        .gallery-tab.active {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+        }
+        
+        .gallery-dropdown {
+            position: relative;
+        }
+        
+        .gallery-dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .gallery-dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .gallery-masonry {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: 250px;
+            grid-auto-flow: dense;
+            gap: var(--space-4);
+            margin-bottom: var(--space-16);
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: transform var(--transition-normal);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+        
+        .gallery-item.wide {
+            grid-column: span 2;
+        }
+        
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+        
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        .gallery-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-4);
+            color: white;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all var(--transition-fast);
+        }
+        
+        .gallery-item:hover .gallery-item-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-item-title {
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+            font-size: var(--font-size-lg);
+        }
+        
+        .gallery-item-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            font-size: var(--font-size-sm);
+        }
+        
+        .gallery-item-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .load-more {
+            display: block;
+            margin: 0 auto;
+            padding: var(--space-3) var(--space-6);
+            margin-bottom: var(--space-16);
+        }
+        
+        /* Albums */
+        .albums-section {
+            margin-top: var(--space-24);
+        }
+        
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .album-card {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: transform var(--transition-fast);
+            cursor: pointer;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .album-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .album-thumbnail {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .album-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        
+        .album-card:hover .album-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .album-count {
+            position: absolute;
+            bottom: var(--space-3);
+            right: var(--space-3);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .album-content {
+            padding: var(--space-4);
+        }
+        
+        .album-title {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-1);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+            
+            .gallery-item.wide {
+                grid-column: auto;
+            }
+            
+            .gallery-item.tall {
+                grid-row: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <span>Taige's</span> Blog
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="bg-prototype.html">Home</a></li>
+                    <li><a href="bg-blog.html">Blog</a></li>
+                    <li><a href="bg-gallery.html" class="active">Gallery</a></li>
+                    <li><a href="bg-about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Photo Gallery</h1>
+            <p class="page-subtitle">A collection of my photographs capturing moments, places, and creative experiments.</p>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Gallery Controls -->
+            <div class="gallery-controls">
+                <div class="gallery-tabs">
+                    <a class="gallery-tab active">All Photos</a>
+                    <a class="gallery-tab">Nature</a>
+                    <a class="gallery-tab">Urban</a>
+                    <a class="gallery-tab">Abstract</a>
+                    <a class="gallery-tab">Travel</a>
+                </div>
+                
+                <div class="gallery-dropdown">
+                    <button class="gallery-dropdown-toggle">
+                        <span>Sort by: Recent</span>
+                        <i data-feather="chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Gallery Masonry Grid -->
+            <div class="gallery-masonry">
+                <div class="gallery-item wide">
+                    <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Mountain Landscape">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Mountain Vista</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> Colorado</span>
+                            <span><i data-feather="calendar"></i> June 2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1470770903676-69b98201ea1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Sunset over lake">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Golden Hour</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> Lake Michigan</span>
+                            <span><i data-feather="calendar"></i> May 2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item tall">
+                    <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="City skyline">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Urban Heights</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> New York</span>
+                            <span><i data-feather="calendar"></i> April 2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Forest stream">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Peaceful Stream</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> Oregon</span>
+                            <span><i data-feather="calendar"></i> April 2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item tall">
+                    <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Abstract architecture">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Geometric Patterns</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> Chicago</span>
+                            <span><i data-feather="calendar"></i> March 2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="City at night">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Nightscape</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> Tokyo</span>
+                            <span><i data-feather="calendar"></i> March 2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item wide">
+                    <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Coastal landscape">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Coastal Dreams</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> California</span>
+                            <span><i data-feather="calendar"></i> February 2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Beach sunset">
+                    <div class="gallery-item-info">
+                        <h3 class="gallery-item-title">Tropical Sunset</h3>
+                        <div class="gallery-item-meta">
+                            <span><i data-feather="map-pin"></i> Hawaii</span>
+                            <span><i data-feather="calendar"></i> February 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary load-more">Load More Photos</button>
+            
+            <!-- Albums Section -->
+            <section class="albums-section">
+                <h2 class="section-title">Photo Albums</h2>
+                
+                <div class="albums-grid">
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Nature album">
+                            <div class="album-count">
+                                <i data-feather="image"></i> 24 photos
+                            </div>
+                        </div>
+                        <div class="album-content">
+                            <h3 class="album-title">Nature Escapes</h3>
+                            <p>Landscapes, forests, and natural wonders.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Urban album">
+                            <div class="album-count">
+                                <i data-feather="image"></i> 18 photos
+                            </div>
+                        </div>
+                        <div class="album-content">
+                            <h3 class="album-title">Urban Exploration</h3>
+                            <p>City life, architecture, and street scenes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Abstract album">
+                            <div class="album-count">
+                                <i data-feather="image"></i> 12 photos
+                            </div>
+                        </div>
+                        <div class="album-content">
+                            <h3 class="album-title">Abstract Patterns</h3>
+                            <p>Geometric shapes, textures, and abstract art.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Travel album">
+                            <div class="album-count">
+                                <i data-feather="image"></i> 32 photos
+                            </div>
+                        </div>
+                        <div class="album-content">
+                            <h3 class="album-title">Travel Diaries</h3>
+                            <p>Adventures and explorations around the world.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span>Taige's</span> Blog
+                    </div>
+                    <p>A personal space for sharing ideas, experiments, and creative explorations.</p>
+                    
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i data-feather="github"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="twitter"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="instagram"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Navigation</h3>
+                    <ul>
+                        <li><a href="bg-prototype.html">Home</a></li>
+                        <li><a href="bg-blog.html">Blog</a></li>
+                        <li><a href="bg-gallery.html">Gallery</a></li>
+                        <li><a href="bg-about.html">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Nature</a></li>
+                        <li><a href="#">Urban</a></li>
+                        <li><a href="#">Abstract</a></li>
+                        <li><a href="#">Travel</a></li>
+                        <li><a href="#">Portraits</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Taige's Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+        });
+    </script>
+</body>
+</html> 

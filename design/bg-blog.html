@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Taige's Blog</title>
+    <link rel="stylesheet" href="https://unpkg.com/modern-normalize@2.0.0/modern-normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bg-styles.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        /* Blog page specific styles */
+        .blog-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4) var(--space-6);
+        }
+        
+        .blog-filter-label {
+            font-weight: 500;
+            margin-right: var(--space-2);
+            color: var(--color-text-light);
+        }
+        
+        .filter-chip {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--color-text-light);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: var(--font-size-sm);
+        }
+        
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .blog-search {
+            margin-left: auto;
+            position: relative;
+        }
+        
+        .blog-search input {
+            padding: var(--space-2) var(--space-6);
+            padding-left: 2.5rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--color-text);
+            width: 250px;
+            transition: all var(--transition-fast);
+        }
+        
+        .blog-search input::placeholder {
+            color: var(--color-text-light);
+        }
+        
+        .blog-search input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            width: 300px;
+        }
+        
+        .blog-search i {
+            position: absolute;
+            left: var(--space-2);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-light);
+        }
+        
+        .featured-post {
+            margin-bottom: var(--space-16);
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: var(--space-8);
+            overflow: hidden;
+        }
+        
+        .featured-post-content {
+            padding: var(--space-6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+        }
+        
+        .featured-tag {
+            display: inline-block;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-4);
+            background: linear-gradient(135deg, #a6c0fe, #f68084);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .featured-post-title {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--space-4);
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .featured-post-image {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .featured-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        
+        .featured-post:hover .featured-post-image img {
+            transform: scale(1.05);
+        }
+        
+        .featured-post-meta {
+            display: flex;
+            gap: var(--space-4);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-light);
+            margin-top: var(--space-4);
+        }
+        
+        .featured-post-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .article-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        
+        .article-card:hover .article-image img {
+            transform: scale(1.1);
+        }
+        
+        .article-content {
+            padding: var(--space-4);
+        }
+        
+        .article-tag {
+            display: inline-block;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-2);
+            background: linear-gradient(135deg, #a6c0fe, #f68084);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .article-title {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-2);
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: var(--space-4);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-light);
+            margin-top: var(--space-3);
+        }
+        
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-top: var(--space-16);
+        }
+        
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .pagination-item:hover,
+        .pagination-item.active {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            border-color: transparent;
+        }
+        
+        @media (max-width: 768px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-post-image {
+                height: 250px;
+                order: -1;
+            }
+            
+            .blog-filters {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .blog-search {
+                margin-left: 0;
+                width: 100%;
+                margin-top: var(--space-4);
+            }
+            
+            .blog-search input,
+            .blog-search input:focus {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <span>Taige's</span> Blog
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="bg-prototype.html">Home</a></li>
+                    <li><a href="bg-blog.html" class="active">Blog</a></li>
+                    <li><a href="bg-gallery.html">Gallery</a></li>
+                    <li><a href="bg-about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Blog & Articles</h1>
+            <p class="page-subtitle">Explore my thoughts, tutorials, and insights on design, technology, and creativity.</p>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Blog Filters -->
+            <div class="blog-filters">
+                <div>
+                    <span class="blog-filter-label">Filter by:</span>
+                    <div class="filter-chips">
+                        <button class="filter-chip active">All</button>
+                        <button class="filter-chip">Design</button>
+                        <button class="filter-chip">Technology</button>
+                        <button class="filter-chip">Photography</button>
+                        <button class="filter-chip">Tutorials</button>
+                    </div>
+                </div>
+                
+                <div class="blog-search">
+                    <i data-feather="search"></i>
+                    <input type="text" placeholder="Search articles...">
+                </div>
+            </div>
+            
+            <!-- Featured Post -->
+            <div class="featured-post">
+                <div class="featured-post-content">
+                    <span class="featured-tag">Featured</span>
+                    <h2 class="featured-post-title">Creating Immersive Digital Experiences with Modern Web Technologies</h2>
+                    <p>An in-depth exploration of how to build captivating, immersive web experiences using the latest technologies and design principles.</p>
+                    <div class="featured-post-meta">
+                        <span><i data-feather="calendar"></i> June 12, 2023</span>
+                        <span><i data-feather="clock"></i> 8 min read</span>
+                        <span><i data-feather="message-circle"></i> 24 comments</span>
+                    </div>
+                    <a href="bg-blog-post.html" class="btn btn-primary" style="margin-top: var(--space-6); align-self: flex-start;">Read Article</a>
+                </div>
+                
+                <div class="featured-post-image">
+                    <img src="https://images.unsplash.com/photo-1517292987719-0369a794ec0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGlnaXRhbCUyMGV4cGVyaWVuY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60" alt="Immersive Digital Experiences">
+                </div>
+            </div>
+            
+            <!-- Articles Grid -->
+            <h2 class="section-title">Latest Articles</h2>
+            
+            <div class="articles-grid">
+                <article class="article-card glass-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Design article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Design</span>
+                        <h3 class="article-title">The Art of Minimal UI Design</h3>
+                        <p>How less can be more: principles and practices for creating beautiful minimal interfaces.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> May 18, 2023</span>
+                            <span><i data-feather="clock"></i> 5 min read</span>
+                        </div>
+                        <a href="bg-blog-post.html" class="btn btn-primary" style="margin-top: var(--space-4);">Read Article</a>
+                    </div>
+                </article>
+                
+                <article class="article-card glass-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Tech article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Technology</span>
+                        <h3 class="article-title">Getting Started with Astro Framework</h3>
+                        <p>A comprehensive guide to building lightning-fast websites with the Astro framework.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> May 5, 2023</span>
+                            <span><i data-feather="clock"></i> 7 min read</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card glass-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Photography article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Photography</span>
+                        <h3 class="article-title">Storytelling Through Photography</h3>
+                        <p>Techniques for capturing moments that convey emotion and narrative in a single frame.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> April 22, 2023</span>
+                            <span><i data-feather="clock"></i> 4 min read</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card glass-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Tutorial article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Tutorials</span>
+                        <h3 class="article-title">Building a Design System from Scratch</h3>
+                        <p>A step-by-step guide to creating a cohesive design system for your projects.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> April 14, 2023</span>
+                            <span><i data-feather="clock"></i> 10 min read</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card glass-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1523800503107-5bc3ba2a6f81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Technology article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Technology</span>
+                        <h3 class="article-title">The Future of Web Development</h3>
+                        <p>Exploring upcoming trends and technologies shaping the future of web development.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> April 3, 2023</span>
+                            <span><i data-feather="clock"></i> 6 min read</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card glass-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="Design article">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Design</span>
+                        <h3 class="article-title">Designing for Accessibility</h3>
+                        <p>Essential principles and practices to make your designs accessible to everyone.</p>
+                        <div class="article-meta">
+                            <span><i data-feather="calendar"></i> March 27, 2023</span>
+                            <span><i data-feather="clock"></i> 8 min read</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <a class="pagination-item active">1</a>
+                <a class="pagination-item">2</a>
+                <a class="pagination-item">3</a>
+                <a class="pagination-item">4</a>
+                <a class="pagination-item"><i data-feather="chevron-right"></i></a>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span>Taige's</span> Blog
+                    </div>
+                    <p>A personal space for sharing ideas, experiments, and creative explorations.</p>
+                    
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i data-feather="github"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="twitter"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="instagram"></i></a>
+                        <a href="#" class="social-icon"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Navigation</h3>
+                    <ul>
+                        <li><a href="bg-prototype.html">Home</a></li>
+                        <li><a href="bg-blog.html">Blog</a></li>
+                        <li><a href="bg-gallery.html">Gallery</a></li>
+                        <li><a href="bg-about.html">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Technology</a></li>
+                        <li><a href="#">Design</a></li>
+                        <li><a href="#">Photography</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Personal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Taige's Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+        });
+    </script>
+</body>
+</html> 
