@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// TODO: Replace with actual gallery items
+const galleryItems = [
+  {
+    title: "Minimal UI Design",
+    description: "A collection of minimal user interface designs",
+    image: "/assets/images/gallery/minimal-ui.jpg",
+    category: "Design"
+  },
+  {
+    title: "Web Development",
+    description: "Screenshots from various web development projects",
+    image: "/assets/images/gallery/web-dev.jpg",
+    category: "Development"
+  },
+  {
+    title: "Mobile Apps",
+    description: "UI/UX designs for mobile applications",
+    image: "/assets/images/gallery/mobile-apps.jpg",
+    category: "Design"
+  },
+  {
+    title: "Code Snippets",
+    description: "Interesting code snippets and patterns",
+    image: "/assets/images/gallery/code.jpg",
+    category: "Development"
+  },
+  {
+    title: "Design Systems",
+    description: "Components and patterns from design systems",
+    image: "/assets/images/gallery/design-systems.jpg",
+    category: "Design"
+  },
+  {
+    title: "Prototypes",
+    description: "Interactive prototypes and wireframes",
+    image: "/assets/images/gallery/prototypes.jpg",
+    category: "Design"
+  }
+];
+---
+
+<Layout title="Gallery | Taige's Blog">
+  <!-- Hero Section -->
+  <section class="pt-32 pb-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          <span class="bg-gradient-to-r from-pink-400 to-orange-300 bg-clip-text text-transparent">
+            Gallery
+          </span>
+        </h1>
+        <p class="text-xl text-gray-300">
+          A collection of my work, experiments, and creative explorations in design and development.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Filters -->
+  <section class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="bg-black/30 backdrop-blur-lg border border-white/10 rounded-lg p-4">
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-300">Filter by:</span>
+            <div class="flex gap-2">
+              <button class="px-3 py-1 text-sm bg-pink-500 text-white rounded-full">
+                All
+              </button>
+              <button class="px-3 py-1 text-sm text-gray-300 hover:bg-white/5 rounded-full">
+                Design
+              </button>
+              <button class="px-3 py-1 text-sm text-gray-300 hover:bg-white/5 rounded-full">
+                Development
+              </button>
+            </div>
+          </div>
+
+          <div class="ml-auto">
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Search gallery..."
+                class="w-64 px-4 py-2 bg-black/30 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-500"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Grid -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {galleryItems.map(item => (
+          <article class="group relative overflow-hidden rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 transition-all hover:border-pink-500/50">
+            <div class="aspect-video overflow-hidden">
+              <img
+                src={item.image}
+                alt={item.title}
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+            <div class="p-6">
+              <span class="inline-block px-3 py-1 text-xs font-semibold text-pink-400 bg-pink-400/10 rounded-full mb-4">
+                {item.category}
+              </span>
+              <h3 class="text-xl font-bold mb-2">
+                <a href="#" class="text-white hover:text-pink-400 transition-colors">
+                  {item.title}
+                </a>
+              </h3>
+              <p class="text-gray-300 text-sm">
+                {item.description}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pagination -->
+  <section class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-center gap-2">
+        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/10 text-white hover:bg-pink-500 transition-colors">
+          1
+        </button>
+        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/10 text-gray-400 hover:bg-white/5 transition-colors">
+          2
+        </button>
+        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/10 text-gray-400 hover:bg-white/5 transition-colors">
+          3
+        </button>
+        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/10 text-gray-400 hover:bg-white/5 transition-colors">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+</Layout> 

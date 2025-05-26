@@ -1,0 +1,93 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/blogs', label: 'Blog' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/about', label: 'About' }
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-lg border-b border-white/10">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="text-2xl font-bold">
+        <span class="bg-gradient-to-r from-pink-400 to-orange-300 bg-clip-text text-transparent">
+          Taige's
+        </span>
+        Blog
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8">
+        {navItems.map(item => (
+          <a
+            href={item.href}
+            class={`text-sm font-medium transition-colors ${
+              currentPath === item.href
+                ? 'text-pink-400'
+                : 'text-gray-300 hover:text-pink-400'
+            }`}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="md:hidden p-2 text-gray-300 hover:text-pink-400 transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="md:hidden hidden">
+    <nav class="px-4 py-2 space-y-1">
+      {navItems.map(item => (
+        <a
+          href={item.href}
+          class={`block px-3 py-2 rounded-md text-base font-medium ${
+            currentPath === item.href
+              ? 'text-pink-400 bg-pink-400/10'
+              : 'text-gray-300 hover:text-pink-400 hover:bg-white/5'
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const menuButton = document.querySelector('button[aria-label="Toggle menu"]');
+  const mobileMenu = document.querySelector('.md\\:hidden.hidden');
+
+  menuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script> 
