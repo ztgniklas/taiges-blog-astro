@@ -17,3 +17,6 @@ alwaysApply: true
 ## Deployment
 - **Cloudflare Pages:** Optimize assets for performance, considering Cloudflare's CDN capabilities.
 - **Build Process:** Ensure compatibility with Cloudflare Pages' build environment.
+
+## Interaction with AI Agent
+- Always ask for approval before pushing any code change.

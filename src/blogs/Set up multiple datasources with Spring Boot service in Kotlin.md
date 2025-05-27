@@ -1,4 +1,6 @@
-## Set up multiple datasources with Spring JPA in a Spring Boot service
+---
+title: Set up multiple datasources with Spring JPA in a Spring Boot service
+---
 
 ### Introduction
 

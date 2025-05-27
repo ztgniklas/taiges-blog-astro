@@ -1,4 +1,9 @@
-### Duplicate keys when operating hashmap through multi threads
+---
+title: Duplicate keys when operating hashmap through multi threads
+date: 2024-03-20
+category: Development
+tags: [Java, Multi-thread]
+---
 
 ```kotlin
 import java.util.stream.Collectors
