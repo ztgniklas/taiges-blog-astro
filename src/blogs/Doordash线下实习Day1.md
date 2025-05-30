@@ -2,6 +2,7 @@
 title: Doordash线下实习Day1
 date: '2022-05-24 22:10:34'
 tags: [日常]
+featured: true
 ---
 
 一天的所见所闻做了一部Vlog，请移步任一网站：

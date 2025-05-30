@@ -3,8 +3,8 @@ interface Props {
   post: {
     title: string;
     description: string;
-    pubDate: Date;
-    heroImage?: string;
+    date: Date;
+    heroImgUrl?: string;
     category: string;
     tags: string[];
     author: string;
@@ -19,15 +19,15 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
-}).format(post.pubDate);
+}).format(post.date);
 ---
 
 <article class="group relative overflow-hidden rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 transition-all hover:border-pink-500/50">
   <!-- Hero Image -->
-  {post.heroImage && (
+  {post.heroImgUrl && (
     <div class="relative h-48 overflow-hidden">
       <img
-        src={post.heroImage}
+        src={post.heroImgUrl}
         alt={post.title}
         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
       />

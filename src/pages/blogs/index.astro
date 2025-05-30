@@ -1,7 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { posts } from '../../data/posts';
+import { getBlogPosts } from '../../utils/blog';
 import type { BlogPost } from '../../utils/blog';
+
+// Get all blog posts
+const posts = await getBlogPosts();
 ---
 
 <Layout title="Blog | Taige's Blog">

@@ -1,30 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/blog/PostCard.astro';
+import { getFeaturedPosts } from '../utils/blog';
 
-// TODO: Replace with actual blog post fetching
-const featuredPosts = [
-  {
-    title: "Getting Started with Astro",
-    description: "Learn how to build a modern blog with Astro, React, and TypeScript",
-    pubDate: new Date("2024-03-20"),
-    heroImage: "/assets/images/blog/getting-started/hero.jpg",
-    category: "Development",
-    tags: ["astro", "react", "typescript", "tutorial"],
-    author: "Taige Wilson",
-    slug: "getting-started-with-astro"
-  },
-  {
-    title: "The Art of Minimal UI Design",
-    description: "How less can be more: principles and practices for creating beautiful minimal interfaces",
-    pubDate: new Date("2024-03-18"),
-    heroImage: "/assets/images/blog/minimal-ui/hero.jpg",
-    category: "Design",
-    tags: ["design", "ui", "minimalism"],
-    author: "Taige Wilson",
-    slug: "art-of-minimal-ui-design"
-  }
-];
+const featuredPosts = await getFeaturedPosts();
 ---
 
 <Layout title="Home | Taige's Blog">
@@ -59,16 +38,18 @@ const featuredPosts = [
   </section>
 
   <!-- Featured Posts -->
-  <section class="py-16">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8">Featured Posts</h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        {featuredPosts.map(post => (
-          <PostCard post={post} />
-        ))}
+  {featuredPosts.length > 0 && (
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Featured Posts</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          {featuredPosts.map(post => (
+            <PostCard post={post} />
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Categories -->
   <section class="py-16 bg-black/30 backdrop-blur-lg">
