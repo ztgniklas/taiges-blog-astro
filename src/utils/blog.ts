@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import slugify from 'slugify';
 import { marked } from 'marked';
+import * as pinyin from 'pinyin';
 
 export interface BlogPost {
   title: string;
@@ -20,18 +21,17 @@ export interface BlogPost {
 const BLOGS_DIR = path.join(process.cwd(), 'src', 'blogs');
 
 function generateSlug(title: string, filename: string): string {
-  // First try to generate slug from title
-  const titleSlug = slugify(title, {
-    lower: true,        // Convert to lower case
-    strict: true,       // Strip special characters except replacement
-    locale: 'en',       // Use English locale
-    remove: /[*+~.()'"!:@]/g  // Remove these characters
-  });
-
   // If title is in non-Latin script (like Chinese), use filename
-  if (!/^[a-z0-9-]+$/.test(titleSlug)) {
-    // Remove .md extension and convert to slug
-    return slugify(filename.replace(/\.md$/, ''), {
+  if (!/^[a-z0-9-]+$/.test(title)) {
+    // Convert filename to pinyin first
+    const filenameWithoutExt = filename.replace(/\.md$/, '');
+    const pinyinFilename = pinyin.pinyin(filenameWithoutExt, {
+      style: 0, // STYLE_NORMAL
+      heteronym: false,
+    }).join(' ');
+    
+    // Then slugify the pinyin
+    return slugify(pinyinFilename, {
       lower: true,
       strict: true,
       locale: 'en',
@@ -39,7 +39,13 @@ function generateSlug(title: string, filename: string): string {
     });
   }
 
-  return titleSlug;
+  // Otherwise, use generated slug from title
+  return slugify(title, {
+    lower: true,        // Convert to lower case
+    strict: true,       // Strip special characters except replacement
+    locale: 'en',       // Use English locale
+    remove: /[*+~.()'"!:@]/g  // Remove these characters
+  });
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
