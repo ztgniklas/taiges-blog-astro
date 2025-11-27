@@ -1,9 +1,9 @@
 ---
 title: 使用frp内网穿透并远程连接Jupyter Notebook
-data: '2019-04-21 17:23:00'
+date: '2019-04-21 17:23:00'
 tags:
 - 工具
-categories:
+featured: true
 ---
 
 > #### 0x00 准备工作

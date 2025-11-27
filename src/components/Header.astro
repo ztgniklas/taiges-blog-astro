@@ -13,36 +13,33 @@ const navItems = [
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-lg border-b border-white/10">
-  <div class="container mx-auto px-4">
-    <div class="flex items-center justify-between h-16">
-      <!-- Logo -->
-      <a href="/" class="text-2xl font-bold">
-        <span class="bg-gradient-to-r from-pink-400 to-orange-300 bg-clip-text text-transparent">
-          Taige's
-        </span>
-        Blog
-      </a>
-
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center space-x-8">
-        {navItems.map(item => (
-          <a
-            href={item.href}
-            class={`text-sm font-medium transition-colors ${
-              currentPath === item.href
-                ? 'text-pink-400'
-                : 'text-gray-300 hover:text-pink-400'
-            }`}
-          >
-            {item.label}
-          </a>
+<header class="sticky top-0 z-50" style="background-color: #fefffa;">
+  <div class="px-6">
+    <div class="relative flex items-center justify-center h-16">
+      <!-- Desktop Navigation (Centered Pill) -->
+      <nav class="hidden md:flex items-center bg-white rounded-full px-6 py-2 shadow-sm border border-gray-100">
+        {navItems.map((item, index) => (
+          <>
+            <a
+              href={item.href}
+              class={`text-sm font-medium transition-colors ${
+                currentPath === item.href
+                  ? 'text-orange-500'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              {item.label}
+            </a>
+            {index < navItems.length - 1 && (
+              <span class="mx-3 text-gray-300">|</span>
+            )}
+          </>
         ))}
       </nav>
 
-      <!-- Mobile Menu Button -->
+      <!-- Mobile Menu Button (Absolute Right) -->
       <button
-        class="md:hidden p-2 text-gray-300 hover:text-pink-400 transition-colors"
+        class="md:hidden absolute right-0 p-2 text-gray-600 hover:text-gray-900 transition-colors"
         aria-label="Toggle menu"
       >
         <svg
@@ -65,14 +62,14 @@ const navItems = [
 
   <!-- Mobile Navigation -->
   <div class="md:hidden hidden">
-    <nav class="px-4 py-2 space-y-1">
+    <nav class="px-4 py-2 space-y-1" style="background-color: #fefffa;">
       {navItems.map(item => (
         <a
           href={item.href}
           class={`block px-3 py-2 rounded-md text-base font-medium ${
             currentPath === item.href
-              ? 'text-pink-400 bg-pink-400/10'
-              : 'text-gray-300 hover:text-pink-400 hover:bg-white/5'
+              ? 'text-gray-900 bg-gray-100'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >
           {item.label}
@@ -90,4 +87,4 @@ const navItems = [
   menuButton?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');
   });
-</script> 
+</script>

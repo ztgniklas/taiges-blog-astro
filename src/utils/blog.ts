@@ -16,6 +16,7 @@ export interface BlogPost {
   slug: string;
   content: string;
   featured?: boolean;
+  hidden?: boolean;
 }
 
 const BLOGS_DIR = path.join(process.cwd(), 'src', 'blogs');
@@ -29,7 +30,7 @@ function generateSlug(title: string, filename: string): string {
       style: 0, // STYLE_NORMAL
       heteronym: false,
     }).join(' ');
-    
+
     // Then slugify the pinyin
     return slugify(pinyinFilename, {
       lower: true,
@@ -55,33 +56,33 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   }
 
   const files = fs.readdirSync(BLOGS_DIR);
-  
+
   const posts = await Promise.all(files
     .filter(file => file.endsWith('.md'))
     .map(async file => {
       const filePath = path.join(BLOGS_DIR, file);
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const { data, content } = matter(fileContent);
-      
+
       // Generate slug from title or filename
       const slug = data.slug || generateSlug(data.title || file, file);
-      
+
       // Extract or generate metadata
-      const title = data.title || slug.split('-').map((word: string) => 
+      const title = data.title || slug.split('-').map((word: string) =>
         word.charAt(0).toUpperCase() + word.slice(1)
       ).join(' ');
-      
+
       const description = data.description || 'Click to see details';
-      
-      const date = data.date ? new Date(data.date) : 
+
+      const date = data.date ? new Date(data.date) :
         new Date(fs.statSync(filePath).birthtime);
-      
+
       const heroImgUrl = data.heroImgUrl || 'https://picsum.photos/300/200';
-      
+
       const category = data.category || 'Uncategorized';
-      
+
       const tags = data.tags || [];
-      
+
       const author = data.author || 'Taige';
 
       // Convert markdown content to HTML
@@ -97,11 +98,12 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         author,
         slug,
         content: processedContent,
-        featured: data.featured || false
+        featured: data.featured || false,
+        hidden: data.hidden || false
       };
     }));
 
-  return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
+  return posts.filter(post => !post.hidden).sort((a, b) => b.date.getTime() - a.date.getTime());
 }
 
 export async function getFeaturedPosts(): Promise<BlogPost[]> {

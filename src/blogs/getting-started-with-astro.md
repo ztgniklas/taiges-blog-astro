@@ -6,6 +6,7 @@ category: "Development"
 tags: ["astro", "react", "typescript", "tutorial"]
 author: "Taige"
 featured: true
+hidden: true
 ---
 
 Welcome to this comprehensive guide on building a modern blog with Astro, React, and TypeScript. In this tutorial, we'll explore how to create a fast, SEO-friendly blog that leverages the best of both static and dynamic rendering.
