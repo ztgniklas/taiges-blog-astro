@@ -1,6 +1,7 @@
 ---
 title: Set up multiple datasources with Spring JPA in a Spring Boot service
 category: "Development"
+date: 2025-05-22
 featured: true
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Weblogic后台上传webshell
 date: '2019-08-15 19:16:01'
+category: "Hacking"
 tags:
 - 渗透测试
 - weblogic
@@ -16,14 +17,14 @@ tags:
 
 左边 域结构 --> 部署 --> 安装 --> 上载文件 --> 一路下一步
 
-![7463220d.png](7463220d.png)
+![7463220d.png](https://r2.taigezhang.com/7463220d.png)
 
-![7447597f.png](7447597f.png)
+![7447597f.png](https://r2.taigezhang.com/7447597f.png)
 
 这样war包就安装成功了
 
-![6e9b97d1.png](6e9b97d1.png)
+![6e9b97d1.png](https://r2.taigezhang.com/6e9b97d1.png)
 
 地址框中输入url/jspspy/jspspy.jspx即可（密码是xxxxxx）
 
-![3942ff3c.png](3942ff3c.png)
+![3942ff3c.png](https://r2.taigezhang.com/3942ff3c.png)

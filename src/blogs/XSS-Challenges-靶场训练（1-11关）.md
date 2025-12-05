@@ -1,8 +1,8 @@
 ---
 title: XSS Challenges 靶场训练（1-11关）
 date: '2019-08-09 14:22:30'
+category: "Hacking"
 tags:
-- web安全
 - XSS
 ---
 

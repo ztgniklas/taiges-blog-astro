@@ -1,11 +1,11 @@
 ---
 title: MySQL 8.0+ 重置root密码
 date: '2019-08-03 20:00:12'
+category: "Development"
 tags:
 - Linux
 - 工具
 ---
-###  MySQL 8.0+ 重置root密码
 
 #### 0x00 修改my.ini
 找到mysql安装目录下的my.ini文件，在[mysqld]下加入skip-grant-tables，如下：
