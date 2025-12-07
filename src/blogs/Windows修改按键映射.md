@@ -1,6 +1,7 @@
 ---
 title: Windows修改按键映射
 date: '2021-12-19 22:31:22'
+category: "修电脑"
 ---
 
 笔记本电脑的esc按键失灵了。这个按键还是比较常用的，失灵后很不方便，难以找到替代按键。注意到键盘上有两个alt键，如果我们能修改其中之一，让其变成esc键，这样既不影响alt的使用，我们也可以正常使用esc了。
@@ -20,7 +21,7 @@ date: '2021-12-19 22:31:22'
 11. 重启电脑后，两个按键应该已经交换了
 
 最后展示一下注册表：
-![reg](1639975766.png)
+![reg](https://r2.taigezhang.com/1639975766.png)
 
 扫描码可以参照：
 http://www.philipstorr.id.au/pcbook/book3/scancode.htm
