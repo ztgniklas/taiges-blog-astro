@@ -1,6 +1,7 @@
 ---
 title: 使用Expo调试React Native出现手机无法连接的问题
 date: '2021-11-24 12:19:56'
+category: "Development"
 ---
 # 使用Expo调试React Native出现手机无法连接的问题
 

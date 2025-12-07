@@ -35,19 +35,19 @@ tags:
 
 看源码发现有一个隐藏的输入框，抓包注入代码进输入框里的value值：
 
-![48bced01.png](48bced01.png)
+![48bced01.png](https://r2.taigezhang.com/48bced01.png)
 
 > #### 第五关
 
 输入框有前端验证的字数限制，抓包绕过：
 
-![acd0755f.png](acd0755f.png)
+![acd0755f.png](https://r2.taigezhang.com/acd0755f.png)
 
 > #### 第六关
 
 输入之前的payload，发现尖括号被转义为HTML实体编码：
 
-![75e56454.png](75e56454.png)
+![75e56454.png](https://r2.taigezhang.com/75e56454.png)
 
 查看提示说使用JS事件：
 

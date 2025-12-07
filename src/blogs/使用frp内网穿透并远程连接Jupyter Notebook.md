@@ -1,8 +1,11 @@
 ---
 title: 使用frp内网穿透并远程连接Jupyter Notebook
 date: '2019-04-21 17:23:00'
+category: "Development"
 tags:
-- 工具
+- 内网穿透
+- Jupyter Notebook
+- frp
 featured: true
 ---
 
@@ -19,7 +22,7 @@ enp5s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 ```
 因此选择用frp先进行内网穿透。其原理大致如下图：
 <!--more-->
-![frp structure](9e9dd039.png)
+![frp structure](https://r2.taigezhang.com/9e9dd039.png)
 
 由图可知，我们需要一台具有公网IP的服务器作为中转。从[Releases/frp · GitHub](https://github.com/fatedier/frp/releases)页面可以下载最新版本的frp程序。将 frps 及 frps.ini 放到公网 IP 的中转服务器上，将 frpc 及 frpc.ini 放到处于内网环境的服务器上。
 
@@ -35,7 +38,7 @@ bind_port = 7000
 vhost_http_port = 80
 ```
 意思是设置公网的机器通过访问中转服务器80端口的http服务来运行内网服务器应用（本例中是Jupyter Notebook），使用7000端口监听内网服务器运行的web服务。这里有一点需要注意的是，一些云服务提供商比如阿里云固定http服务监听80端口，而且自带防火墙设置，所以在自己的服务器上单独设置可能没有效果。如阿里云可以进入管理控制台进行设置：
-![Aliyun control](194a93f5.png)
+![Aliyun control](https://r2.taigezhang.com/194a93f5.png)
 
 然后运行frps：
 ```shell
@@ -85,7 +88,7 @@ c.NotebookApp.port = 8080
 其中c.NotebookApp.port的值要与frpc_ini中的local_port一致。事实上作为外网访问，应该为Jupyter Notebook设置访问密码以保证安全性。读者可以搜索相关资料，这里就不做进一步说明了。
 
 有访问密码的界面：
-![password required](4c45a1c6.png)
+![password required](https://r2.taigezhang.com/4c45a1c6.png)
 
 > #### 0x04 运行效果
 
@@ -95,7 +98,7 @@ $ jupyter notebook
 ```
 
 从自己的电脑上访问中转服务器的IP地址（或域名）或者加上端口，如x.x.x.x:80，如果返回Jupyter Notebook的界面说明大功告成。
-![success](c53bcf83.png)
+![success](https://r2.taigezhang.com/c53bcf83.png)
 
 > #### 0x05 结语
 

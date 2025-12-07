@@ -1,6 +1,7 @@
 ---
 title: 使用ffmpeg提取视频中的音频
 date: '2021-05-19 00:0:52'
+category: "Development"
 ---
 ### 使用ffmpeg提取视频中的音频
 
